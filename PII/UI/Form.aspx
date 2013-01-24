@@ -15,7 +15,7 @@
                 <asp:Label ID="lblName" runat="server"></asp:Label></h3>
         </span>
         <fieldset>
-            <legend>Infomation</legend>
+            <legend>Infomation </legend>
             <ul>
                 <li>
                     <label class="bold" for="foo">
@@ -38,9 +38,9 @@
                                     <asp:ListItem>---</asp:ListItem>
                                 </asp:DropDownList>
                                 <div class="descr">
-                                    Day</div>
+                                    Day</div> 
                             </li>
-                            <li>
+                            <li> 
                                 <asp:DropDownList runat="server" ID="drpYear">
                                     <asp:ListItem>---</asp:ListItem>
                                 </asp:DropDownList>
