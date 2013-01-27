@@ -5,6 +5,8 @@
 <head runat="server">
     <title>PII</title>
     <link rel="stylesheet" type="text/css" href="../Styles/kube.min.css" />
+    <script src="../Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
+    <script src="../Scripts/Script.js" type="text/javascript"></script>
 </head>
 <body>
     <form id="form1" runat="server" class="forms  columnar" runat="server">
@@ -15,7 +17,7 @@
                 <asp:Label ID="lblName" runat="server"></asp:Label></h3>
         </span>
         <fieldset>
-            <legend>Infomation </legend>
+            <legend>Information </legend>
             <ul>
                 <li>
                     <label class="bold" for="foo">
@@ -28,20 +30,33 @@
                         <ul class="multicolumn">
                             <li>
                                 <asp:DropDownList runat="server" ID="drpMonth">
-                                    <asp:ListItem>---</asp:ListItem>
+                                    <asp:ListItem Value="1" Selected="True">Jan</asp:ListItem>
+                                    <asp:ListItem Value="2">Feb</asp:ListItem>
+                                    <asp:ListItem Value="3">Mar</asp:ListItem>
+                                    <asp:ListItem Value="4">Apr</asp:ListItem>
+                                    <asp:ListItem Value="5">May</asp:ListItem>
+                                    <asp:ListItem Value="6">Jun</asp:ListItem>
+                                    <asp:ListItem Value="7">Jul</asp:ListItem>
+                                    <asp:ListItem Value="8">Aug</asp:ListItem>
+                                    <asp:ListItem Value="9">Sep</asp:ListItem>
+                                    <asp:ListItem Value="10">Oct</asp:ListItem>
+                                    <asp:ListItem Value="11">Nov</asp:ListItem>
+                                    <asp:ListItem Value="12">Dec</asp:ListItem>
                                 </asp:DropDownList>
                                 <div class="descr">
                                     Month</div>
                             </li>
                             <li>
-                                <asp:DropDownList runat="server" ID="drpDay">
+                                <asp:DropDownList runat="server" ID="drpDay" DataTextField="Data" 
+                                    DataValueField="Data">
                                     <asp:ListItem>---</asp:ListItem>
                                 </asp:DropDownList>
                                 <div class="descr">
                                     Day</div> 
                             </li>
                             <li> 
-                                <asp:DropDownList runat="server" ID="drpYear">
+                                <asp:DropDownList runat="server" ID="drpYear" DataTextField="Data" 
+                                    DataValueField="Data">
                                     <asp:ListItem>---</asp:ListItem>
                                 </asp:DropDownList>
                                 <div class="descr">
@@ -72,7 +87,8 @@
                 <li>
                     <label class="bold" for="foo">
                         Email <span class="req">*</span></label>
-                    <asp:TextBox runat="server" ID="txtEmail" required="required" type="email" class="five" />
+                    <asp:TextBox runat="server" ID="txtEmail" required="required" type="email" 
+                        class="five" TextMode="Email" />
                     <div class="descr">
                         albert@gmail.com</div>
                 </li>
@@ -80,11 +96,11 @@
                     <label class="bold" for="foo">
                         Phone number <span class="req">*</span></label>
                     (
-                    <asp:TextBox runat="server" ID="txtPhone1" required="required" type="text" size="3" />
+                    <asp:TextBox runat="server" ID="txtPhone1" MaxLength="3"  pattern="\d*" required="required" type="text" size="3" />
                     )
-                    <asp:TextBox runat="server" ID="txtPhone2" required="required" type="text" size="3" />
-                    -
-                    <asp:TextBox runat="server" ID="txtPhone3" required="required" type="text" size="4" />
+                    <asp:TextBox runat="server" ID="txtPhone2" MaxLength="3" pattern="\d*" required="required" type="text" size="3" />
+                    
+                    <asp:TextBox runat="server" ID="txtPhone3" MaxLength="4" pattern="\d*" required="required" type="text" size="4" />
                     <div class="descr">
                         (754) 315 - 2159</div>
                 </li>
@@ -112,7 +128,7 @@
                 <li>
                     <label class="bold" for="foo">
                         Zip <span class="req">*</span></label>
-                    <asp:TextBox runat="server" ID="txtZip" required="required" type="text" class="five" />
+                    <asp:TextBox runat="server" ID="txtZip"  pattern="\d*" required="required" type="text" class="five" />
                     <div class="descr">
                         15489</div>
                 </li>
