@@ -9,7 +9,7 @@
     <script src="../Scripts/Script.js" type="text/javascript"></script>
 </head>
 <body>
-    <form id="form1" runat="server" class="forms  columnar" runat="server">
+    <form id="form1" runat="server" class="forms  columnar" >
     <div style="padding: 10px;" class="threequarter">
         <span style="text-align: center;">
             <h3>
@@ -88,7 +88,7 @@
                     <label class="bold" for="foo">
                         Email <span class="req">*</span></label>
                     <asp:TextBox runat="server" ID="txtEmail" required="required" type="email" 
-                        class="five" TextMode="Email" />
+                        class="five"/>
                     <div class="descr">
                         albert@gmail.com</div>
                 </li>

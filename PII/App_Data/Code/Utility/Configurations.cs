@@ -19,6 +19,16 @@ namespace PII.Code.Utility
 
 
         /// <summary>
+        /// Returns the table name in Mongo DB where the PII information are being stored
+        /// </summary>
+        /// <returns></returns>
+        public static String TableName
+        {
+            get { return ConfigurationManager.AppSettings["TableName"]; }
+        }
+
+
+        /// <summary>
         /// Returns the MongoDB Connection string
         /// </summary>
         public static String ConnectionString
