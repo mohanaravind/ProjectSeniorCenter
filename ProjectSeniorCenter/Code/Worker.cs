@@ -19,7 +19,7 @@ namespace ProjectSeniorCenter.Code
             string userName = Configurations.User;
 
             //If its a volunteer
-            if (Configurations.User.Contains("volunteer"))
+            if (Configurations.User.Contains(Configurations.Volunteer))
             {
                 //Start the sniffer process
 

@@ -63,5 +63,15 @@ namespace ProjectSeniorCenter.Code.Utility
                 return System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             }
         }
+
+
+        /// <summary>
+        /// Returns the keyword of the volunteer 
+        /// </summary>
+        /// <returns></returns>
+        public static String Volunteer
+        {
+            get { return System.Configuration.ConfigurationManager.AppSettings.Get("Volunteer"); }
+        }
     }
 }

@@ -29,6 +29,16 @@ namespace PII.Code.Utility
 
 
         /// <summary>
+        /// Returns the websites table name in Mongo DB where the accessible websites information are being stored
+        /// </summary>
+        /// <returns></returns>
+        public static String Websites
+        {
+            get { return ConfigurationManager.AppSettings["Websites"]; }
+        }
+
+
+        /// <summary>
         /// Returns the MongoDB Connection string
         /// </summary>
         public static String ConnectionString
@@ -42,6 +52,32 @@ namespace PII.Code.Utility
         public static String DatabaseName
         {
             get { return ConfigurationManager.ConnectionStrings["MongoDB"].ProviderName; }
+        }
+
+        /// <summary>
+        /// Returns the site checker's waiting time
+        /// </summary>
+        /// <returns></returns>
+        public static Int32 SiteCheckerThreshold
+        {
+            get
+            {
+                Int32 time = Int32.MinValue;
+                String waitingTime = System.Configuration.ConfigurationManager.AppSettings.Get("SiteCheckerThreshold");
+
+                //Parse the string
+                Int32.TryParse(waitingTime, out time);
+
+                return time;
+            }
+        }
+
+        /// <summary>
+        /// Returns the Administrator name
+        /// </summary>
+        public static String Administrator
+        {
+            get { return System.Configuration.ConfigurationManager.AppSettings.Get("Administrator"); }
         }
 
     }

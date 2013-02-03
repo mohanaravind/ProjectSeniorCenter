@@ -19,7 +19,7 @@ namespace PII.Code.Entity
         public String YearOfBirth { get; set; }
         public String PhoneNumber { get; set; }
         public String EmailAddress { get; set; }
-        public String StreetAddress { get; set; }
+        public String StreetAddress { get; set; }        
         public String City { get; set; }
         public String State { get; set; }
         public String Zip { get; set; }
@@ -28,7 +28,7 @@ namespace PII.Code.Entity
         public String[] GrandChildren { get; set; }
         public String[] PastEmployers { get; set; }
         public String[] CurrentEmployers { get; set; }
-
+        public String LastUpdatedOn { get; set; }
 
         /// <summary>
         /// Copies the data from the given instance
@@ -52,6 +52,7 @@ namespace PII.Code.Entity
             this.GrandChildren = person.GrandChildren;
             this.PastEmployers = person.PastEmployers;
             this.CurrentEmployers = person.CurrentEmployers;
+            this.LastUpdatedOn = person.LastUpdatedOn;
         }
     }
 }

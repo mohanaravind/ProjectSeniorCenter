@@ -52,6 +52,9 @@
     <StartupObject>ProjectSeniorCenter.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FiddlerCore">
+      <HintPath>..\..\..\UB\Projects\Analytics\Resources\Fiddler Core\API\FiddlerCore.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -65,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Notifier.cs" />
+    <Compile Include="Code\Sniffer.cs" />
     <Compile Include="Code\Utility\Configurations.cs" />
     <Compile Include="Code\Utility\Logger.cs" />
     <Compile Include="Code\Utility\Win32.cs" />

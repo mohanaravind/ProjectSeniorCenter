@@ -137,6 +137,8 @@ namespace PII.UI
                 txtPhone2.CssClass = "input-success";
                 txtPhone3.Text = phone[2];
                 txtPhone3.CssClass = "input-success";
+
+                lblUpdatedOn.Text = "Last updated on: " + person.LastUpdatedOn ;
             }
             catch (Exception ex)
             {
@@ -183,7 +185,8 @@ namespace PII.UI
                     SpouseName = txtSpouse.Text.Trim(),
                     State = txtState.Text.Trim(),
                     StreetAddress = txtStreet.Text.Trim(),
-                    Zip = txtZip.Text.Trim()
+                    Zip = txtZip.Text.Trim(),
+                    LastUpdatedOn = DateTime.Now.ToShortDateString()
                 }; 
 
                 //Insert the data to database

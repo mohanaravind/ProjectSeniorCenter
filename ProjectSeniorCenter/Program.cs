@@ -37,7 +37,7 @@ namespace ProjectSeniorCenter
         /// <param name="e"></param>
         private static void Session_Ending(object sender, SessionEndingEventArgs e)
         {
-
+            
         }
 
     }

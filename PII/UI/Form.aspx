@@ -5,18 +5,23 @@
 <head runat="server">
     <title>PII</title>
     <link rel="stylesheet" type="text/css" href="../Styles/kube.min.css" />
+    <link href="../Styles/mystyle.css" rel="stylesheet" type="text/css" />
     <script src="../Scripts/jquery-1.4.1.min.js" type="text/javascript"></script>
     <script src="../Scripts/Script.js" type="text/javascript"></script>
 </head>
-<body>
+<body class="bgnoise">
     <form id="form1" runat="server" class="forms  columnar" >
-    <div style="padding: 10px;" class="threequarter">
+    <div style="padding: 10px; padding-top: 20px; width: 800px; margin: 0 auto;"  >
         <span style="text-align: center;">
             <h3>
                 Fill in the details for
                 <asp:Label ID="lblName" runat="server"></asp:Label></h3>
+                
         </span>
-        <fieldset>
+        <div style="text-align:right;">
+            <asp:Label CssClass="descr" ID="lblUpdatedOn" runat="server"></asp:Label>
+        </div>
+        <fieldset style="background-color: White;">
             <legend>Information </legend>
             <ul>
                 <li>
