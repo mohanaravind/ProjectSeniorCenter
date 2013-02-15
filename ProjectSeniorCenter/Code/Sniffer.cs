@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Fiddler;
 using System.Threading;
+using ProjectSeniorCenter.Code.Utility;
+using ProjectSeniorCenter.Code.Entity;
 
 
 namespace ProjectSeniorCenter.Code
@@ -24,20 +26,34 @@ namespace ProjectSeniorCenter.Code
         /// <summary>
         /// The port at which the sniffer listens to as a proxy
         /// </summary>
-        private static Int32 _PORT = 8877;
+        private Int32 _PORT;
 
-        private static Sniffer _objSniffer;
+        private Config _enConfiguration = Config.Run;
 
-        private static Config _enConfiguration = Config.Run;
+        public Boolean IsAlive { get; set; }
 
 
+        private SnifferConfigHandler _snifferConfigHandler;
+
+        private DBUtility _DBUtility;
+
+        private Boolean _IsAllowedURL;
 
         /// <summary>
         /// Private constructor
         /// </summary>
         private Sniffer()
         {
+            _PORT = Configurations.SnifferPort;
 
+            //Get the sniffer config handler
+            _snifferConfigHandler = SnifferConfigHandler.GetSnifferConfigHandler();
+
+            //Create the DB Utility
+            _DBUtility = DBUtility.CreateDBUtility(Configurations.DatabaseName, Configurations.User);
+
+            //Initialize
+            _IsAllowedURL = false;
         }
 
        
@@ -45,21 +61,19 @@ namespace ProjectSeniorCenter.Code
         /// Returns the Sniffer instance
         /// </summary>
         /// <returns></returns>
-        public static Sniffer GetSniffer()
+        public static Sniffer CreateSniffer()
         {
-            if (_objSniffer == null)
-                _objSniffer = new Sniffer();
 
-            return _objSniffer;
+            return new Sniffer();
         }
 
         /// <summary>
         /// Sets the sniffer configuration
         /// </summary>
-        public static Config Configuration
+        public Config Configuration
         {
-            get { return Sniffer._enConfiguration; }
-            set { Sniffer._enConfiguration = value; }
+            get { return _enConfiguration; }
+            set { _enConfiguration = value; }
         }
 
         /// <summary>
@@ -89,77 +103,91 @@ namespace ProjectSeniorCenter.Code
             }
         }
 
-
+        
         /// <summary>
         /// Gets triggered before the request has been made
         /// </summary>
         /// <param name="objSession"></param>
         private void FiddlerApplication_BeforeRequest(Session objSession)
         {
-            /*
+
             try
-            {
-                //Declarations
-                Utility objUtility = new Utility();
-                DBUtility objDBUtility = new DBUtility();
+            {                    
 
                 CreateCertificateIfRequired();
-               
+
                 //Declarations
                 String strContentType = String.Empty;
-                                
-                //Uncomment this if tampering of response is required
-                //objSession.bBufferResponse = true;
-                
-                //Get the content type
-                strContentType = objSession.oRequest.headers["Accept"];
+                String strRequestedParameters = String.Empty;
 
-                //If its not a capture onl only HTML requests or it has to be HTML only content
-                if (_enConfiguration != Config.CaptureOnlyHTMLRequests || strContentType.Contains("text/html"))
+                //Get the flag whether its an allowable URL
+                Website website = _snifferConfigHandler.GetWebsite(objSession.fullUrl);
+
+                //Check whether a matching website was found
+                _IsAllowedURL = website != null;                    
+
+                //Sniff out only if this URL was in the list of websites
+                if (_IsAllowedURL)
                 {
+                    //Get the content type
+                    strContentType = objSession.oRequest.headers["Accept"];
+
+                    //If its not a capture onl only HTML requests or it has to be HTML only content
+
                     //Get the request headers
                     HTTPRequestHeaders objRequestHeaders = objSession.oRequest.headers;
 
                     //Construct the network data
                     NetworkData objNetworkData = new NetworkData
                     {
-                        ClientIP = objSession.clientIP,
-                        HostName = objSession.hostname,
                         URLFullPath = objSession.fullUrl,
                         IsHTTPS = objSession.isHTTPS,
-                        RequestedAt = objSession.Timers.ClientBeginRequest.ToString(),
-                        RequestType = objRequestHeaders.HTTPMethod
+                        SentOn = objSession.Timers.ClientBeginRequest.ToString(),
+                        Site = website
                     };
-                                
-                                                           
+
+
                     //Get the request body
                     String strRequestBody = objSession.GetRequestBodyAsString();
                     
-
                     //If its a POST request
-                    if (objNetworkData.RequestType == "POST")
+                    if (objRequestHeaders.HTTPMethod == "POST")
                         //Get the request parameters
-                        objNetworkData.RequestParameters = objUtility.GetRequestParameters(strRequestBody);
-                    else if (objNetworkData.RequestType == "GET")
+                        strRequestedParameters = strRequestBody;
+                    else if (objRequestHeaders.HTTPMethod == "GET")
                     {
-                        String [] arrQueryString = objNetworkData.URLFullPath.Split(new Char[] { '?' }); 
+                        String[] arrQueryString = objNetworkData.URLFullPath.Split(new Char[] { '?' });
 
-                        if(arrQueryString.Length > 1)
-                            objNetworkData.RequestParameters = objUtility.GetRequestParameters(arrQueryString[1]);
+                        if (arrQueryString.Length > 1)
+                            strRequestedParameters = arrQueryString[1];
                     }
 
-    
-                    //Update the capture to Mongo DB
-                    if (_enConfiguration != Config.CaptureOnlyWithRequestParameters || objNetworkData.RequestParameters.Count > 0)
-                        objDBUtility.AddData("NetworkData", "NetworkData", objNetworkData);                                       
+                    //TO DO: Capture only if the content has any PII data
+                    if (objNetworkData.ContainsPII(_snifferConfigHandler.Person, strRequestedParameters))
+                        //Update the capture to Mongo DB
+                        _DBUtility.AddData(objNetworkData);
                 }
+                else
+                {
+                    //Uncomment this if tampering of response is required
+                    objSession.bBufferResponse = true;
+
+                    //objSession.Abort();                   
+                }
+                
+            }
+            catch (ThreadAbortException ex)
+            {
+                ShutDown();                              
             }
             catch (Exception ex)
             {
-                Utility.DisplayException("FiddlerApplication_BeforeRequest", ex);                                
+                Utility.Logger.Log("FiddlerApplication_BeforeRequest: " + ex.Message);
+
+                ShutDown();
             }
 
-            */
+            
         }
 
         /// <summary>
@@ -168,18 +196,12 @@ namespace ProjectSeniorCenter.Code
         /// <param name="objSession"></param>
         private void FiddlerApplication_BeforeResponse(Session objSession)
         {
-            String strContentType;
-
-            //Get the content type
-            strContentType = objSession.oRequest.headers["Accept"];
-
-
-            String strRequestBody = objSession.GetResponseBodyAsString();
-            //objSession.utilSetResponseBody("<html><body><h1>Hii</h1></body></html>");
-
-            //If the user has opted to display responses
-            if(_enConfiguration == Config.ShowResponses)
-                Console.WriteLine("{0}:HTTP {1} for {2}", objSession.id, objSession.responseCode, objSession.fullUrl);
+            //Check whether its an inaccessible URL
+            if (!_IsAllowedURL)
+            {
+                String strRequestBody = objSession.GetResponseBodyAsString();
+                objSession.utilSetResponseBody("<html><body><h1>You are not allowed to view this site.</h1></body></html>");
+            }
         }
 
         /// <summary>
@@ -193,7 +215,11 @@ namespace ProjectSeniorCenter.Code
             }
             catch (Exception ex)
             {
-                Utility.Logger.Log(ex.Message);
+                Utility.Logger.Log("ShutDown: " + ex.Message);
+            }
+            finally
+            {
+                IsAlive = false;
             }
         }
 
@@ -227,7 +253,7 @@ namespace ProjectSeniorCenter.Code
             }
             catch (Exception ex)
             {
-                Utility.Logger.Log(ex.Message);
+                Utility.Logger.Log("CreateCertificateIfRequired: " + ex.Message);
             }
 
         }
