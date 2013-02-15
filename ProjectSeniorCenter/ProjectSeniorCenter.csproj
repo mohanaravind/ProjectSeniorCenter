@@ -55,6 +55,12 @@
     <Reference Include="FiddlerCore">
       <HintPath>..\..\..\UB\Projects\Analytics\Resources\Fiddler Core\API\FiddlerCore.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\MongoDB\CSharpDriver 1.6\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\MongoDB\CSharpDriver 1.6\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -67,10 +73,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Entity\NetworkData.cs" />
+    <Compile Include="Code\Entity\Person.cs" />
+    <Compile Include="Code\Utility\SnifferConfigHandler.cs" />
+    <Compile Include="Code\Entity\Website.cs" />
     <Compile Include="Code\Notifier.cs" />
     <Compile Include="Code\Sniffer.cs" />
     <Compile Include="Code\Utility\Configurations.cs" />
     <Compile Include="Code\Utility\Logger.cs" />
+    <Compile Include="Code\Utility\DBUtility.cs" />
+    <Compile Include="Code\Utility\Utility.cs" />
     <Compile Include="Code\Utility\Win32.cs" />
     <Compile Include="Code\Worker.cs" />
     <Compile Include="Program.cs" />

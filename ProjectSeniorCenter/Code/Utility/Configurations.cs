@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Configuration;
 
 namespace ProjectSeniorCenter.Code.Utility
 {
@@ -52,6 +53,43 @@ namespace ProjectSeniorCenter.Code.Utility
             }
         }
 
+
+        /// <summary>
+        /// Returns the sniffer polling time
+        /// </summary>
+        /// <returns></returns>
+        public static Int32 SnifferPollTime
+        {
+            get
+            {
+                Int32 time = Int32.MinValue;
+                String pollingTime = System.Configuration.ConfigurationManager.AppSettings.Get("SnifferPollTime");
+
+                //Parse the string
+                Int32.TryParse(pollingTime, out time);
+
+                return time;
+            }
+        }
+
+        /// <summary>
+        /// Returns the port to which the sniffer listens to
+        /// </summary>
+        /// <returns></returns>
+        public static Int32 SnifferPort
+        {
+            get
+            {
+                Int32 port = Int32.MinValue;
+                String snifferPort = System.Configuration.ConfigurationManager.AppSettings.Get("SnifferPort");
+
+                //Parse the string
+                Int32.TryParse(snifferPort, out port);
+
+                return port;
+            }
+        }
+
         /// <summary>
         /// Returns the user name of current user
         /// </summary>
@@ -60,7 +98,9 @@ namespace ProjectSeniorCenter.Code.Utility
         {
             get
             {
-                return System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+                String[] name = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new Char[] { '\\' });
+
+                return name[1];
             }
         }
 
@@ -73,5 +113,44 @@ namespace ProjectSeniorCenter.Code.Utility
         {
             get { return System.Configuration.ConfigurationManager.AppSettings.Get("Volunteer"); }
         }
+
+
+        /// <summary>
+        /// Returns the MongoDB Connection string
+        /// </summary>
+        public static String ConnectionString
+        {
+            get { return ConfigurationManager.ConnectionStrings["MongoDB"].ConnectionString; }
+        }
+
+        /// <summary>
+        /// Returns the database name
+        /// </summary>
+        public static String DatabaseName
+        {
+            get { return ConfigurationManager.ConnectionStrings["MongoDB"].ProviderName; }
+        }
+
+
+
+        /// <summary>
+        /// Returns the PIITableName 
+        /// </summary>
+        /// <returns></returns>
+        public static String PIITableName
+        {
+            get { return System.Configuration.ConfigurationManager.AppSettings.Get("PII"); }
+        }
+
+
+        /// <summary>
+        /// Returns the WebsitesTableName 
+        /// </summary>
+        /// <returns></returns>
+        public static String WebsitesTableName
+        {
+            get { return System.Configuration.ConfigurationManager.AppSettings.Get("Websites"); }
+        }
+
     }
 }
