@@ -31,9 +31,6 @@ namespace PII.UI
             
             String[] name = windowsLogin.Split(new Char[] { '\\' });
 
-            Logger.Log(name[0]);
-            Logger.Log(name[name.Length - 1]);
-
             if (!name[name.Length - 1].Trim().Equals(Configurations.Administrator))
             {                
                 Response.Redirect("Unauthorized.html");

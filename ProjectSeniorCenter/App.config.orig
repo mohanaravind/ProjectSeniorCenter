@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <appSettings>
+    <!-- The time after which the system has to notify user about volunteering -->
+    <add key="ThresholdTime" value ="5000"/>
+
+    <!-- The time after which the system sleeps before checking for system idle time -->
+    <add key="NotifierPollTime" value ="1000"/>
+
+    <!-- The time after which the sniffer thread status would be checked -->
+    <add key="SnifferPollTime" value ="5000"></add>
+
+    <!-- Windows event log identifier -->
+    <add key="EventLog" value ="ProjectSeniorCenter"/>
+
+    <!-- Volunteer keyword which can be used to identify a volunteer -->
+<<<<<<< HEAD
+    <add key="Volunteer" value ="seniorcenter"/>
+=======
+    <add key="Volunteer" value ="Volunteer"/>
+>>>>>>> 39008466acaf010d0a62bfde1625da104643bfab
+
+    <!-- Mongo DB PII table name -->
+    <add key="PII" value ="PII"/>
+
+    <!-- Mongo DB Accessible websites table name -->
+    <add key="Websites" value ="Websites"/>
+    
+    <!-- Sniffer listening port -->
+    <add key="SnifferPort" value ="8877"/>
+
+    
+  </appSettings>
+
+
+
+  <connectionStrings>
+    <add name="MongoDB" connectionString="mongodb://seniorcenter:seniorcenter123@128.205.237.131:27017" providerName="PSC" />
+  </connectionStrings>
+
+
+
+
+
+
+
+
+</configuration>
