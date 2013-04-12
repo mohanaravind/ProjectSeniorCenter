@@ -24,7 +24,7 @@ namespace ProjectSeniorCenter.Code.Utility
         private SnifferConfigHandler()
         {
             //Get the required data
-            GetData();           
+            //GetData();           
         }
 
 
@@ -75,6 +75,13 @@ namespace ProjectSeniorCenter.Code.Utility
             return website;
         }
 
+        /// <summary>
+        /// Retrieves the data once again
+        /// </summary>
+        public void ForceRetrieve()
+        {
+            GetData();
+        }
 
 
         #endregion
@@ -121,6 +128,7 @@ namespace ProjectSeniorCenter.Code.Utility
         public Person Person
         {
             get { return _person; }
+            set { _person = value; }
         }
 
         #endregion

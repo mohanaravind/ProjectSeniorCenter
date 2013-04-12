@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Configuration;
 using System.Threading;
 using ProjectSeniorCenter.Code.Utility;
+using ProjectSeniorCenter.Code;
 
 namespace ProjectSeniorCenter.UI
 {
@@ -22,6 +23,7 @@ namespace ProjectSeniorCenter.UI
         #region Declarations
 
         private Thread _thNotifier;
+        private Notifier _notifier;
 
         #endregion
 
@@ -34,6 +36,14 @@ namespace ProjectSeniorCenter.UI
         public Thread NotifierThread
         {
             set { _thNotifier = value; }
+        }
+
+        /// <summary>
+        /// Notifier instance 
+        /// </summary>
+        public Notifier NotifierInstance
+        {
+            set { _notifier = value; }
         }
 
         #endregion
@@ -49,22 +59,7 @@ namespace ProjectSeniorCenter.UI
         /// <param name="e"></param>
         private void btnYes_Click(object sender, EventArgs e)
         {
-            //Set the log message
-            Logger.Log(Configurations.User + " | "  + " volunteers", System.Diagnostics.EventLogEntryType.Information);
-
-            try
-            {
-                if (_thNotifier != null)
-                {
-                    _thNotifier.Abort();
-                    _thNotifier.Join();
-                }
-            }
-            catch (Exception ex)
-            {
-                //Set the error log message
-                Logger.Log(Configurations.User + " | " + ex.InnerException.Message, System.Diagnostics.EventLogEntryType.Error);
-            }
+            this.Close();           
         }
 
         /// <summary>
@@ -88,11 +83,20 @@ namespace ProjectSeniorCenter.UI
             System.Diagnostics.Process.Start("http://www.google.com");
         }
 
-
+        /// <summary>
+        /// Gets triggered when the form gets loaded
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Volunteer_Load(object sender, EventArgs e)
+        {
+            //Setting the About URL link
+            LinkLabel.Link link = new LinkLabel.Link();
+            link.LinkData = Configurations.AboutLink;
+            lnkAbout.Links.Add(link);            
+        }
 
         #endregion
-
-
 
     }
 }

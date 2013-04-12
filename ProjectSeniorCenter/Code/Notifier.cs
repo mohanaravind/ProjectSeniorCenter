@@ -8,7 +8,7 @@ using ProjectSeniorCenter.Code.Utility;
 
 namespace ProjectSeniorCenter.Code
 {
-    class Notifier
+    public class Notifier
     {
 
         #region Declarations
@@ -55,23 +55,37 @@ namespace ProjectSeniorCenter.Code
                         idleTime = 0;
 
                         //Show the dialog
-                        _volunteer.ShowDialog();
+                        DialogResult result = _volunteer.ShowDialog();
+
+                        if (result == DialogResult.Yes)                            
+                            break;
                     }
 
                     //Wait till the polling time
                     Thread.Sleep(pollTime);
                 }
+
+                forceLogOff();
             }
             catch (ThreadAbortException)
             {
-                //Forced Log off
-                Win32.ForceLogOff();
+                forceLogOff();
             }
 
+        }
+
+        private void forceLogOff()
+        {
+            Win32.ForceLogOff();
+            //System.Console.WriteLine("Logged Off");
         }
 
 
         #endregion
 
     }
+
+
+
+
 }

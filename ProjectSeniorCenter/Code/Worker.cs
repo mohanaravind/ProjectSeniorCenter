@@ -22,7 +22,11 @@ namespace ProjectSeniorCenter.Code
 
             //If its a volunteer
             if (IsVolunteer())
-                StartSniffer();
+            {
+                //Start sniffer only if PII is available
+                if(SnifferConfigHandler.GetSnifferConfigHandler().Person != null)
+                    StartSniffer();
+            }
             else
                 StartNotifier();
         }
@@ -105,16 +109,21 @@ namespace ProjectSeniorCenter.Code
 
             try
             {
-                //Get the name of the volunteer who has logged in
-                String volunteer = Configurations.User;
+                //Get the name of the user who has logged in
+                String user = Configurations.User;
 
-                //Check whether this volunteer has PII information 
-                result = SnifferConfigHandler.GetSnifferConfigHandler().Person.Volunteer.Equals(volunteer);
+                //Check if its not a volunteer
+                if (!user.Contains(Configurations.Volunteer))
+                    return false;
 
-                //TODO://If its false either the user should not be a volunteer or a volunteer who's PII are not available
+                //Get the person data from DB
+                SnifferConfigHandler.GetSnifferConfigHandler().ForceRetrieve();
+
+                result = true;
             }
             catch (Exception ex)
             {
+                Logger.Log("Worker_IsVolunteer-" + ex.Message, System.Diagnostics.EventLogEntryType.Error);
                 result = false;
             }
 

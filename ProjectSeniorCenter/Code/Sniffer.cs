@@ -39,6 +39,10 @@ namespace ProjectSeniorCenter.Code
 
         private Boolean _IsAllowedURL;
 
+        static Proxy _SecureEndpoint;
+        static int _SecureEndpointPort = 7777;
+        static string _SecureEndpointHostname = "localhost";
+
         /// <summary>
         /// Private constructor
         /// </summary>
@@ -94,8 +98,21 @@ namespace ProjectSeniorCenter.Code
                 //Creates the certificate if required
                 //CreateCertificateIfRequired();
 
+                //FiddlerCoreStartupFlags startUpFlags = FiddlerCoreStartupFlags.DecryptSSL;
+                
                 //Start the fiddler for listening HTTP/HTTPS requests
+                //FiddlerApplication.Startup(_PORT, startUpFlags);
                 FiddlerApplication.Startup(_PORT, true, true);
+
+
+                // We'll also create a HTTPS listener, useful for when FiddlerCore is masquerading as a HTTPS server
+                // instead of acting as a normal CERN-style proxy server.
+                //_SecureEndpoint = FiddlerApplication.CreateProxyEndpoint(_SecureEndpointPort, true, _SecureEndpointHostname);
+                //if (null != _SecureEndpoint)
+                //{
+                //    FiddlerApplication.Log.LogFormat("Created secure end point listening on port {0}, using a HTTPS certificate for '{1}'", _SecureEndpointPort, _SecureEndpointHostname);
+                //}
+                
             }
             catch (Exception ex)
             {              
@@ -119,6 +136,7 @@ namespace ProjectSeniorCenter.Code
                 //Declarations
                 String strContentType = String.Empty;
                 String strRequestedParameters = String.Empty;
+
 
                 //Get the flag whether its an allowable URL
                 Website website = _snifferConfigHandler.GetWebsite(objSession.fullUrl);
@@ -146,7 +164,6 @@ namespace ProjectSeniorCenter.Code
                         Site = website
                     };
 
-
                     //Get the request body
                     String strRequestBody = objSession.GetRequestBodyAsString();
                     
@@ -170,7 +187,7 @@ namespace ProjectSeniorCenter.Code
                 else
                 {
                     //Uncomment this if tampering of response is required
-                    objSession.bBufferResponse = true;
+                    //objSession.bBufferResponse = true;
 
                     //objSession.Abort();                   
                 }
@@ -196,11 +213,12 @@ namespace ProjectSeniorCenter.Code
         /// <param name="objSession"></param>
         private void FiddlerApplication_BeforeResponse(Session objSession)
         {
+
             //Check whether its an inaccessible URL
             if (!_IsAllowedURL)
             {
                 String strRequestBody = objSession.GetResponseBodyAsString();
-                objSession.utilSetResponseBody("<html><body><h1>You are not allowed to view this site.</h1></body></html>");
+                objSession.utilSetResponseBody("<html><body><h1 style='color:red;'>You are not allowed to view this site.</h1></body></html>");
             }
         }
 

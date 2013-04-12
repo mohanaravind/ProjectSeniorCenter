@@ -30,6 +30,10 @@ namespace ProjectSeniorCenter.Code.Entity
         public String[] CurrentEmployers { get; set; }
         public String LastUpdatedOn { get; set; }
 
+        //Flag to state whether the person has an associated PII record in the DB
+        public Boolean hasPII { get; set; }
+
+        
         /// <summary>
         /// Copies the data from the given instance
         /// </summary>

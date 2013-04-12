@@ -80,5 +80,19 @@ namespace PII.Code.Utility
             get { return System.Configuration.ConfigurationManager.AppSettings.Get("Administrator"); }
         }
 
+        /// <summary>
+        /// Returns whether the PII data would be displayed to the user
+        /// </summary>
+        public static Boolean DisplayPII
+        {
+            get 
+            { 
+                Boolean result = false;
+                Boolean.TryParse(System.Configuration.ConfigurationManager.AppSettings.Get("DisplayPII"), out result); 
+                return result; 
+            
+            }
+        }
+
     }
 }

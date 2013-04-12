@@ -50,6 +50,7 @@
             // btnYes
             // 
             this.btnYes.BackColor = System.Drawing.Color.YellowGreen;
+            this.btnYes.DialogResult = System.Windows.Forms.DialogResult.Yes;
             this.btnYes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnYes.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnYes.Location = new System.Drawing.Point(102, 96);
@@ -63,7 +64,7 @@
             // btnNo
             // 
             this.btnNo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.btnNo.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnNo.DialogResult = System.Windows.Forms.DialogResult.No;
             this.btnNo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNo.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNo.Location = new System.Drawing.Point(296, 96);
@@ -116,6 +117,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.Volunteer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

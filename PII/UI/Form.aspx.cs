@@ -25,18 +25,25 @@ namespace PII.UI
             try
             {
                 //Get the logged in user's name            
-                String windowsLogin = Thread.CurrentPrincipal.Identity.Name;
+                //String windowsLogin = Thread.CurrentPrincipal.Identity.Name;
 
                 //////Comment this out before release
                 //windowsLogin = @"Aravind-PC\Aravind";
 
-                String[] name = windowsLogin.Split(new Char[] { '\\' });
+                //String[] name = windowsLogin.Split(new Char[] { '\\' });
                 
                 //Display the volunteer name on screen                
-                lblName.Text = name[name.Length - 1];
+                //lblName.Text = name[name.Length - 1];
 
+                String user = String.Empty;
+
+                if(Request.QueryString.Get("User") != null)
+                    user = Request.QueryString.Get("User").Trim();
+
+                lblName.Text = user;
+                
                 if (!Page.IsPostBack)
-                    BindData();
+                   BindData();
             }
             catch (Exception ex)
             {
@@ -92,8 +99,8 @@ namespace PII.UI
                 //Get the person data
                 person = dbUtility.getData(dataBaseName, tableName, lblName.Text);
 
-                //Check if the person has a data
-                if (person == null)
+                //Check if the person has a data or it has been configured not to display the PII 
+                if (person == null || !Configurations.DisplayPII)
                     return;
 
                 //Set the birth dates

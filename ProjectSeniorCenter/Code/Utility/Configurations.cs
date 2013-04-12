@@ -114,7 +114,34 @@ namespace ProjectSeniorCenter.Code.Utility
             get { return System.Configuration.ConfigurationManager.AppSettings.Get("Volunteer"); }
         }
 
+        /// <summary>
+        /// Returns the keyword of the volunteer 
+        /// </summary>
+        /// <returns></returns>
+        public static String AboutLink
+        {
+            get { return System.Configuration.ConfigurationManager.AppSettings.Get("AboutLink"); }
+        }
 
+        /// <summary>
+        /// Returns the keyword of the volunteer 
+        /// </summary>
+        /// <returns></returns>
+        public static String PIIFormLink
+        {
+            get { return System.Configuration.ConfigurationManager.AppSettings.Get("PIIForm"); }
+        }
+
+        /// <summary>
+        /// Returns the keyword of the volunteer 
+        /// </summary>
+        /// <returns></returns>
+        public static String AllowedHost
+        {
+            get { return System.Configuration.ConfigurationManager.AppSettings.Get("AllowedHost"); }
+        }
+
+        
         /// <summary>
         /// Returns the MongoDB Connection string
         /// </summary>
